@@ -4,6 +4,7 @@
 
 <?php
 if ($_SESSION['adminLogin']) {
+  
   include '../header.php';
   include '../dbController/dbController.php';
   include '../access/validation.php';
