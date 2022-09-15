@@ -1,6 +1,5 @@
 <?php
 
-
 include 'dbConnection.php';
 $dbConnect = new ConnectionDb();
 $dbConnection = $dbConnect -> dbConnection();
@@ -26,23 +25,58 @@ function loginAdmin($emailAdmin, $passwordAdmin){
 
 function getCategory(){
   global $dbConnection;
-  $getCategory = $dbConnection -> prepare('SELECT name FROM category');
   try {
+  $getCategory = $dbConnection -> prepare('SELECT name FROM category');
     $getCategory -> execute();
     return $getCategory;
-  } catch (\Exception $e) {
-    $e -> getMessage();
+  } catch (PDOException $exception) {
+    echo $exception -> getMessage();
+  }
+}
+
+function getCategoryId($category){
+  global $dbConnection;
+  try {
+    $getCategoryId = $dbConnection -> prepare('SELECT category_id FROM category WHERE name = :name');
+    $categoryName = [
+      'name' => $category
+    ];
+    $getCategoryId -> execute($categoryName);
+    $getId = $getCategoryId -> fetch();
+    return $categoryId = $getId[0];
+  } catch (PDOException $exception) {
+    echo $exception -> getMessage();
   }
 
+}
+
+function addArticle($articleDetails){
+  global $dbConnection;
+  try {
+    $addArticle = $dbConnection -> prepare('INSERT INTO article VALUES (null, :articleTitle, :articleContent, :articleCategory, :articlePublishDate, :imageName)');
+    $articleValues = [
+      'articleTitle' => $articleDetails[0],
+      'articleContent' => $articleDetails[1],
+      'articleCategory' => getCategoryId($articleDetails[2]),
+      'articlePublishDate' => $articleDetails[3],
+      'imageName' => $articleDetails[4]
+    ];
+    if($addArticle -> execute($articleValues)){
+      return true;
+    }
+  } catch (PDOException $exception) {
+    echo $exception -> getMessage();
+  }
+  return false;
 }
 
 function insertAdmin($email, $password)
 {
   global $dbConnection;
-  $adminInsert = $dbConnection -> prepare('INSERT INTO administrators VALUES (null, :email, :password)');
+  $adminInsert = $dbConnection -> prepare('INSERT INTO administrators VALUES (null, :adminEmail, :adminPassword)');
   $adminInsertValues = [
-    'email' => $email,
-    'password' => password_hash($password, PASSWORD_DEFAULT)
+    'adminEmail' => $email,
+    'adminPassword' => password_hash($password, PASSWORD_DEFAULT)
   ];
   if ($adminInsert -> execute($adminInsertValues)) {
     return true;
