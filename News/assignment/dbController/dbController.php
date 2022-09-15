@@ -42,12 +42,37 @@ function getCategoryId($category){
       'name' => $category
     ];
     $getCategoryId -> execute($categoryName);
-    $getId = $getCategoryId -> fetch();
-    return $categoryId = $getId[0];
+    $categoryId = $getCategoryId -> fetch();
+    return $categoryId[0];
   } catch (PDOException $exception) {
     echo $exception -> getMessage();
   }
+}
 
+function getCategoryName($categoryId){
+  global $dbConnection;
+  try {
+    $getCategoryName = $dbConnection -> prepare('SELECT name FROM category WHERE category_id = :id');
+    $articleCategoryId = [
+      'id' => $categoryId
+    ];
+    $getCategoryName -> execute($articleCategoryId);
+    $categoryName = $getCategoryName -> fetch();
+    return $categoryName[0];
+  } catch (PDOException $exception) {
+    echo $exception -> getMessage();
+  }
+}
+
+function getAdminArticles(){
+  global $dbConnection;
+  try {
+    $getAdminArticles = $dbConnection -> prepare('SELECT article_id, title, publishDate, categoryId, image, content FROM article ORDER BY article_id DESC');
+    $getAdminArticles -> execute();
+    return $getAdminArticles;
+  } catch (PDOException $exception) {
+    echo $exception -> getMessage();
+  }
 }
 
 function addArticle($articleDetails){
