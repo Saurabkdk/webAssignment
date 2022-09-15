@@ -9,12 +9,19 @@ include '../header.php';
 ?>
 
 <main class="login">
+
 <h2 class="loginText">Login</h2>
+
 <form class="" action="login.php" method="post">
+
   <label for="email">Email</label>
-  <input type="email" name="email" required><br>
+  <input type="email" name="email" value="<?php if (isset($_POST['email'])) {
+    echo $_POST['email'];
+  } ?>" required><br>
+
   <label for="password">Password</label>
   <input type="password" name="password" required><br>
+  
   <input type="submit" name="submit">
 </form>
 </main>
