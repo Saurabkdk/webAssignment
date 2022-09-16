@@ -3,9 +3,18 @@
 <link rel="stylesheet" href="../styles.css?v=<?php echo time(); ?>"/>
 
 <?php
-include 'validation.php';
+
 include '../dbController/dbController.php';
 include '../header.php';
+
+if (isset($_SESSION['adminLogin'])) {
+	redirect('../article/adminArticles.php');
+}
+elseif (isset($_SESSION['userLogin'])) {
+	redirect('../index.php');
+}
+else {
+
 ?>
 
 <main class="login">
@@ -21,8 +30,8 @@ include '../header.php';
 
   <label for="password">Password</label>
   <input type="password" name="password" required><br>
-  
-  <input type="submit" name="submit">
+
+  <input type="submit" name="submit" value="Login">
 </form>
 </main>
 
@@ -39,9 +48,13 @@ if (isset($_POST['submit'])) {
     echo "Insert password";
   }
   else {
-    $_SESSION['adminLogin'] = loginAdmin($emailLogin, $passwordLogin);
-    if($_SESSION['adminLogin']){
-      echo '<script> location.replace("../article/addArticle.php"); </script>';
+
+    if(loginAdmin($emailLogin, $passwordLogin)){
+      $_SESSION['adminLogin'] = loginAdmin($emailLogin, $passwordLogin);
+      redirect("../article/adminArticles.php");
+    }
+    else{
+      redirect("Account does not exist");
     }
   }
 
@@ -49,5 +62,6 @@ if (isset($_POST['submit'])) {
 
 ?>
 <?php
+}
 include '../footer.php';
 ?>
