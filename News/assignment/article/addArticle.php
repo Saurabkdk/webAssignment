@@ -3,11 +3,11 @@
 <link rel="stylesheet" href="../styles.css?v=<?php echo time(); ?>"/>
 
 <?php
-if ($_SESSION['adminLogin']) {
-  
-  include '../header.php';
-  include '../dbController/dbController.php';
-  include '../access/validation.php';
+include '../header.php';
+include '../dbController/dbController.php';
+
+if (isset($_SESSION['adminLogin'])) {
+
   ?>
 
   <main class="addArticle">
@@ -40,6 +40,8 @@ if ($_SESSION['adminLogin']) {
       <label for="uploadImage">Upload Image</label>
       <input type="file" name="uploadImage"><br>
       <input type="submit" name="submit" value="Add Article">
+      <br>
+      <a href="adminArticles.php"><button class="formCancel" type="button">Cancel</button></a>
     </form>
   </main>
 
@@ -87,5 +89,9 @@ if ($_SESSION['adminLogin']) {
 
   <?php
 }
+else {
+  redirect('../access/login.php');
+}
+
 include '../footer.php';
 ?>
