@@ -7,4 +7,8 @@ function validateFields($fieldValue){
   return $fieldValue;
 }
 
+function redirect($destination){
+  echo '<script>location.replace("'. $destination .'")</script>';
+}
+
  ?>
