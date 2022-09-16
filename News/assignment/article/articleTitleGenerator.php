@@ -5,6 +5,7 @@
  */
 class articleTitleGenerator
 {
+  public $articleId;
   public $articleTitle;
   public $articleDate;
   public $articleCategory;
@@ -14,7 +15,7 @@ class articleTitleGenerator
   {
     $articleFormat = '<div class="titleView">';
     $articleFormat = $articleFormat . '<div class = "text">';
-    $articleFormat = $articleFormat . '<div class="title"><a href = "#">';
+    $articleFormat = $articleFormat . '<div class="title"><a href = "article.php?id='. $this->articleId .'">';
     $articleFormat = $articleFormat . '<h2>'. $this->articleTitle .'</h2>';
     $articleFormat = $articleFormat . '</a></div>';
     $articleFormat = $articleFormat . '<div class = "dateCategory">';
@@ -26,7 +27,7 @@ class articleTitleGenerator
     $articleFormat = $articleFormat . '</div>';
     $articleFormat = $articleFormat . '</div>';
     $articleFormat = $articleFormat . '<div class = "editDelete">';
-    $articleFormat = $articleFormat . '<p><a id="read" href="#">Read complete article...</a></p>';
+    $articleFormat = $articleFormat . '<p><a id="read" href="article.php?id='. $this->articleId .'">Read complete article...</a></p>';
     $articleFormat = $articleFormat . '<div class = "edit">';
     $articleFormat = $articleFormat . '<p><a id="edit" href="#">Edit</a></p>';
     $articleFormat = $articleFormat . '</div>';
