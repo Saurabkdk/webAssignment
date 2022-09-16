@@ -1,6 +1,8 @@
 <?php
 
 include 'dbConnection.php';
+include '../access/validation.php';
+
 $dbConnect = new ConnectionDb();
 $dbConnection = $dbConnect -> dbConnection();
 
@@ -16,17 +18,16 @@ function loginAdmin($emailAdmin, $passwordAdmin){
       return true;
     }
     else {
-      echo '<script>alert("Password did not match")</script>';
+      redirect("Password did not match");
     }
-  } else {
-    echo '<script>alert("Admin doesn\'t exist")</script>';
   }
+  return false;
 }
 
 function getCategory(){
   global $dbConnection;
   try {
-  $getCategory = $dbConnection -> prepare('SELECT name FROM category');
+  $getCategory = $dbConnection -> prepare('SELECT name, category_id FROM category');
     $getCategory -> execute();
     return $getCategory;
   } catch (PDOException $exception) {
@@ -67,7 +68,7 @@ function getCategoryName($categoryId){
 function getAdminArticles(){
   global $dbConnection;
   try {
-    $getAdminArticles = $dbConnection -> prepare('SELECT article_id, title, publishDate, categoryId, image, content FROM article ORDER BY article_id DESC');
+    $getAdminArticles = $dbConnection -> prepare('SELECT article_id, title, publishDate, categoryId, image FROM article ORDER BY article_id DESC');
     $getAdminArticles -> execute();
     return $getAdminArticles;
   } catch (PDOException $exception) {
@@ -93,6 +94,69 @@ function addArticle($articleDetails){
     echo $exception -> getMessage();
   }
   return false;
+}
+
+function addCategory($newCategory){
+  global $dbConnection;
+  try {
+    $addCategory = $dbConnection -> prepare('INSERT INTO category VALUES (null, :categoryName)');
+    $categoryValues = [
+      'categoryName' => $newCategory
+    ];
+    if ($addCategory -> execute($categoryValues)) {
+      return true;
+    }
+  } catch (PDOException $exception) {
+    echo $exception -> getMessage();
+  }
+  return false;
+}
+
+function editCategory($categoryDetails){
+  global $dbConnection;
+  try {
+    $editCategory = $dbConnection -> prepare('UPDATE category SET name = :categoryName WHERE category_id = :categoryId');
+    $editCategoryValues = [
+      'categoryName' => $categoryDetails[0],
+      'categoryId' => $categoryDetails[1]
+    ];
+    if ($editCategory -> execute($editCategoryValues)) {
+      return true;
+    }
+  } catch (PDOException $exception) {
+    echo $exception -> getMessage();
+  }
+  return false;
+}
+
+function deleteCategory($categoryId){
+  global $dbConnection;
+  try {
+    $deleteCategory = $dbConnection -> prepare('DELETE FROM category WHERE category_id = :category_id');
+    $deleteCategoryValues = [
+      'category_id' => $categoryId
+    ];
+    if ($deleteCategory -> execute($deleteCategoryValues)) {
+      return true;
+    }
+  } catch (PDOException $exception) {
+    echo $exception -> getMessage();
+  }
+return false;
+}
+
+function getOneArticle($articleId){
+  global $dbConnection;
+  try {
+    $getOneArticle = $dbConnection -> prepare('SELECT title, publishDate, categoryId, content, image FROM article WHERE article_id = :id');
+    $getOneArticleValue = [
+      'id' => $articleId
+    ];
+    $getOneArticle -> execute($getOneArticleValue);
+    return $getOneArticle;
+  } catch (PDOException $exception) {
+    echo $exception -> getMessage();
+  }
 }
 
 function insertAdmin($email, $password)
