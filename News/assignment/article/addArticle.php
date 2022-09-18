@@ -27,7 +27,8 @@ if (isset($_SESSION['adminLogin'])) {
       } ?></textarea>
 
       <label for="category">category</label>
-      <select name="category">
+      <select name="category" required>
+        <option value="">Select Category</option>
         <?php
         $getCategory = getCategory();
         while($categoryList = $getCategory -> fetch()){
@@ -39,15 +40,15 @@ if (isset($_SESSION['adminLogin'])) {
 
       <label for="uploadImage">Upload Image</label>
       <input type="file" name="uploadImage"><br>
-      <input type="submit" name="submit" value="Add Article">
+      <input type="submit" name="add" value="Add Article">
       <br>
-      <a href="adminArticles.php"><button class="formCancel" type="button">Cancel</button></a>
+      <a href="adminArticles.php">div<button class="formCancel" type="button">Cancel</button></a>
     </form>
   </main>
 
   <?php
 
-  if (isset($_POST['submit'])) {
+  if (isset($_POST['add'])) {
 
     $imageName = $_FILES['uploadImage']['name'];
     $tempImgName = $_FILES['uploadImage']['tmp_name'];
