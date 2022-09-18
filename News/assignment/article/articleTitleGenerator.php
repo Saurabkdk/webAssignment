@@ -26,15 +26,21 @@ class articleTitleGenerator
     $articleFormat = $articleFormat . '<h4>'. $this->articleCategory .'</h4>';
     $articleFormat = $articleFormat . '</div>';
     $articleFormat = $articleFormat . '</div>';
+
+    if (isset($_SESSION['adminLogin'])) {
+
     $articleFormat = $articleFormat . '<div class = "editDelete">';
     $articleFormat = $articleFormat . '<p><a id="read" href="article.php?id='. $this->articleId .'">Read complete article...</a></p>';
     $articleFormat = $articleFormat . '<div class = "edit">';
-    $articleFormat = $articleFormat . '<p><a id="edit" href="#">Edit</a></p>';
+    $articleFormat = $articleFormat . '<p><a id="edit" href="editArticle.php?id='. $this->articleId .'">Edit</a></p>';
     $articleFormat = $articleFormat . '</div>';
     $articleFormat = $articleFormat . '<div class = "delete">';
-    $articleFormat = $articleFormat . '<p><a id="delete" href="#">Delete</a></p>';
+    $articleFormat = $articleFormat . '<p><a id="delete" href="deleteArticle.php?id='. $this->articleId .'">Delete</a></p>';
     $articleFormat = $articleFormat . '</div>';
     $articleFormat = $articleFormat . '</div>';
+
+  }
+  
     $articleFormat = $articleFormat . '</div>';
     $articleFormat = $articleFormat . '<div class = "image">';
     $articleFormat = $articleFormat . '<img src = "../public/images/articles/'. $this->articleImage .'" alt = "Roger Federer" width = "500px" height = "300px">';
