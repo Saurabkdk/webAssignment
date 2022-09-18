@@ -35,6 +35,27 @@ The grandchildren, at the King's invitation, are very eager to pay their respect
 <p><a href="#">Delete</a></p>
     </div>
 
+    <div class="likeComment">
+
+      <div class="addComment">
+        <form class="" action="index.html" method="post">
+          <textarea name="commentText" rows="8" cols="100" required></textarea>
+          <input style="margin : 1% 0; width: 100px;" type="submit" name="submit" value="Comment">
+        </form>
+      </div>
+      <div class="like">
+        <p>Like</p>
+      </div>
+
+    </div>
+
+    <h3 style="padding:1% 0 0 2%;">Comments</h3>
+
+    <div class="userComments">
+      <p>User</p>
+      <p class="comment">User Comment</p>
+    </div>
+
 </div>
 
  <?php include 'footer.php' ?>
