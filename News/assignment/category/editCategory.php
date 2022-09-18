@@ -14,21 +14,21 @@ $categoryId = $_GET['id'];
 
  <main class="addCategory">
 
- <h2 class="categoryText">Add Category</h2>
+ <h2 class="categoryText">Edit Category</h2>
 
  <form class="" action="editCategory.php?id=<?php echo $categoryId ?>" method="post">
 
    <label for="category">Category</label>
    <input type="text" name="category" value="<?php echo $categoryName ?>" required><br>
 
-   <input type="submit" name="submit" value="Edit Category">
+   <input type="submit" name="edit" value="Edit Category">
    <br>
    <a href="adminCategories.php"><button class="formCancel" type="button">Cancel</button></a>
  </form>
  </main>
 
  <?php
-if(isset($_POST['submit'])){
+if(isset($_POST['edit'])){
   $categoryDetails = [strtoupper($_POST['category']), $categoryId];
   if (editCategory($categoryDetails)) {
     redirect('adminCategories.php');

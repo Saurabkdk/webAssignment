@@ -13,4 +13,7 @@ if (isset($_SESSION['adminLogin'])) {
   }
 
 }
+else {
+  redirect('../access/login.php');
+}
 ?>

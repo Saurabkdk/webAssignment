@@ -21,14 +21,14 @@ if (isset($_SESSION['adminLogin'])) {
      echo $_POST['category'];
    } ?>" required><br>
 
-   <input type="submit" name="submit" value="Add Category">
+   <input type="submit" name="add" value="Add Category">
    <br>
    <a href="adminCategories.php"><button class="formCancel" type="button">Cancel</button></a>
  </form>
  </main>
 
  <?php
-if (isset($_POST['submit'])) {
+if (isset($_POST['add'])) {
 $newCategory = strtoupper(validateFields($_POST['category']));
 
 if(addCategory($newCategory)){
