@@ -33,6 +33,7 @@
 				}
 				else {
 					echo '<li><a class="articleLink" href="../access/login.php">Login</a></li>';
+					echo '<li><a class="articleLink" href="../access/register.php">Register</a></li>';
 				}
 				 ?>
 			</ul>
