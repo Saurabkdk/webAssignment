@@ -53,9 +53,14 @@ if (isset($_POST['submit'])) {
       $_SESSION['adminLogin'] = loginAdmin($emailLogin, $passwordLogin);
       redirect("../article/adminArticles.php");
     }
+		elseif (loginUser($emailLogin, $passwordLogin)) {
+			$_SESSION['userLogin'] = getUserId($emailLogin);
+			redirect("../index.php");
+		}
     else{
-      redirect("Account does not exist");
+      '<script>alert("Account does not exist")</script>';
     }
+
   }
 
 }
