@@ -2,9 +2,15 @@
 session_start();
 
 include '../dbController/dbController.php';
+include '../access/validation.php';
 
 if (isset($_SESSION['userLogin'])) {
-  $likeDetails = [1, $_SESSION['userLogin'], $_GET['id']];
+  if (checkLike($_SESSION['userLogin'], $_GET['id'])) {
+    $likeDetails = [0, $_SESSION['userLogin'], $_GET['id']];
+  }
+  else {
+    $likeDetails = [1, $_SESSION['userLogin'], $_GET['id']];
+  }
   addLike($likeDetails);
 }
 
