@@ -1,7 +1,7 @@
 <?php
 
 include 'dbConnection.php';
-include '../access/validation.php';
+
 
 $dbConnect = new ConnectionDb();
 $dbConnection = $dbConnect -> dbConnection();
@@ -326,6 +326,100 @@ function getUserId($emailUser){
     $getUserId -> execute($getUserIdValue);
     $userId = $getUserId -> fetch();
     return $userId[0];
+  } catch (PDOException $exception) {
+    echo $exception -> getMessage();
+  }
+}
+
+function getComments($articleId){
+  global $dbConnection;
+  try {
+    $getComments = $dbConnection -> prepare('SELECT comment_id, comment, user_id FROM comment WHERE article_id = :articleId');
+    $getCommentsValue = [
+      'articleId' => $articleId
+    ];
+    $getComments -> execute($getCommentsValue);
+    return $getComments;
+  } catch (PDOException $exception) {
+    echo $exception -> getMessage();
+  }
+}
+
+function getUserName($userId){
+  global $dbConnection;
+  try {
+    $getUserName = $dbConnection -> prepare('SELECT name FROM users WHERE user_id = :userId');
+    $getUserNameValue = [
+      'userId' => $userId
+    ];
+    $getUserName -> execute($getUserNameValue);
+    $getUser = $getUserName -> fetch();
+    return $getUser[0];
+  } catch (PDOException $exception) {
+    echo $exception -> getMessage();
+  }
+}
+
+function checkLike($userId, $articleId){
+  global $dbConnection;
+  try {
+    if ($commentId = checkExists($userId, $articleId)) {
+      $checkLike = $dbConnection -> prepare('SELECT likePost FROM comment WHERE comment_id = :commentId');
+      $checkLikeValue = [
+        'commentId' => $commentId
+      ];
+      $checkLike -> execute($checkLikeValue);
+      if ($likeValue = $checkLike -> fetch()) {
+        if ($likeValue[0] == 1) {
+          return true;
+        }
+      }
+    }
+  } catch (PDOException $exception) {
+    echo $exception -> getMessage();
+  }
+  return false;
+}
+
+function countLike($articleId){
+  global $dbConnection;
+  try {
+    $countLike = $dbConnection -> prepare('SELECT COUNT(comment_id) FROM comment WHERE article_id = :articleId AND likePost = :likePost');
+    $countLikeValues = [
+      'articleId' => $articleId,
+      'likePost' => 1
+    ];
+    $countLike -> execute($countLikeValues);
+    $likeCount = $countLike -> fetch();
+    return $likeCount[0];
+  } catch (PDOException $exception) {
+    echo $exception -> getMessage();
+  }
+}
+
+function getCategoryArticle($categoryId){
+  global $dbConnection;
+  try {
+    $getCategoryArticle = $dbConnection -> prepare('SELECT article_id, title, publishDate, image FROM article WHERE categoryId = :categoryId');
+    $getCategoryArticleValue = [
+      "categoryId" => $categoryId
+    ];
+    $getCategoryArticle -> execute($getCategoryArticleValue);
+    return $getCategoryArticle;
+  } catch (PDOException $exception) {
+    echo $exception -> getMessage();
+  }
+}
+
+function getUserComments($userId){
+  global $dbConnection;
+  try {
+    $getUserComments = $dbConnection -> prepare('SELECT comment, article_id FROM comment WHERE user_id = :userId');
+    $getUserCommentsValue = [
+      'userId' => $userId
+    ];
+    $getUserComments -> execute($getUserCommentsValue);
+    return $getUserComments;
   } catch (PDOException $exception) {
     echo $exception -> getMessage();
   }
