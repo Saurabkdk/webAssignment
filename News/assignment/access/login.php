@@ -4,8 +4,8 @@
 
 <?php
 
-include '../dbController/dbController.php';
 include '../header.php';
+include 'validation.php';
 
 if (isset($_SESSION['adminLogin'])) {
 	redirect('../article/adminArticles.php');
