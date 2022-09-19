@@ -4,7 +4,7 @@
 
 <?php
 include '../header.php';
-include '../dbController/dbController.php';
+include '../access/validation.php';
 
 if (isset($_SESSION['adminLogin'])) {
 
