@@ -2,6 +2,7 @@
 session_start();
 
 include '../dbController/dbController.php';
+include '../access/validation.php';
 
 if (isset($_SESSION['adminLogin'])) {
   if (deleteArticle($_GET['id'])) {

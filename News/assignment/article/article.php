@@ -4,7 +4,7 @@
 
 <?php
 include '../header.php';
-include '../dbController/dbController.php';
+include '../access/validation.php';
 
 if (isset($_SESSION['adminLogin']) || isset($_SESSION['userLogin'])) {
 
@@ -38,21 +38,33 @@ if (isset($_SESSION['adminLogin']) || isset($_SESSION['userLogin'])) {
       <div class="articleContent">
         <?php echo $oneArticleContent ?>
       </div>
-      <div class="articleEditDelete">
-        <p><a href="editArticle.php?id=<?php echo $_GET['id'] ?>">Edit</a></p>
-        <p><a href="deleteArticle.php?id=<?php echo $_GET['id'] ?>">Delete</a></p>
-      </div>
+
+      <?php if (isset($_SESSION['adminLogin'])): ?>
+        <div class="articleEditDelete">
+          <p><a href="editArticle.php?id=<?php echo $_GET['id'] ?>">Edit</a></p>
+          <p><a href="deleteArticle.php?id=<?php echo $_GET['id'] ?>">Delete</a></p>
+        </div>
+      <?php endif; ?>
 
       <div class="likeComment">
 
         <div class="addComment">
           <form class="" action="article.php?id=<?php echo $_GET['id']; ?>" method="post">
-            <textarea name="commentText" rows="8" cols="100" required></textarea>
+            <textarea name="commentText" rows="8" cols="100" placeholder="Add a comment..." required></textarea>
             <input style="margin : 1% 0; width: 100px;" type="submit" name="comment" value="Comment">
           </form>
         </div>
         <div class="like">
-          <p><a href="../comment/like.php?id=<?php echo $_GET['id']; ?>">Like</a></p>
+          <p><a href="../comment/like.php?id=<?php echo $_GET['id']; ?>"><?php if (isset($_SESSION['userLogin']) && !checkLike($_SESSION['userLogin'], $_GET['id'])) {
+            echo "Like";
+          }
+          elseif (isset($_SESSION['adminLogin'])) {
+            echo "Like count : ";
+          }
+          else {
+            echo "Unlike";
+          } ?></a></p>
+          <p><?php echo countLike($_GET['id']); ?></p>
         </div>
 
       </div>
@@ -60,17 +72,25 @@ if (isset($_SESSION['adminLogin']) || isset($_SESSION['userLogin'])) {
       <h3 style="padding:1% 0 0 2%;">Comments</h3>
 
       <div class="userComments">
-        <p>User</p>
-        <p class="comment">User Comment</p>
+        <?php
+        if ($getComments = getComments($_GET['id']) -> fetch()) {
+          echo '<a href="../comment/userComments.php?id='. $getComments[2] .'"><p>'. getUserName($getComments[2]) .'</p></a>';
+          echo '<p class="comment">'. $getComments[1] .'</p>';
+        }
+         ?>
       </div>
 
     </div>
 
     <?php
     if (isset($_POST['comment'])) {
-      $commentDetails = [validateFields($_POST['commentText']), $_SESSION['userId'], $_GET['id']];
+      $commentDetails = [validateFields($_POST['commentText']), $_SESSION['userLogin'], $_GET['id']];
       if (addComment($commentDetails)) {
-        echo "Added";
+        $articleId = $_GET['id'];
+        redirect('article.php?id='. $articleId .'');
+      }
+      else {
+        echo "Comment could not be added";
       }
     }
      ?>

@@ -7,7 +7,7 @@ include '../header.php';
 include 'articleTitleGenerator.php';
 include '../access/validation.php';
 
-if (isset($_SESSION['adminLogin'])) {
+if (isset($_SESSION['adminLogin']) || isset($_SESSION['userLogin'])) {
 
  ?>
 
@@ -22,19 +22,19 @@ if (isset($_SESSION['adminLogin'])) {
  </div>
 
 <?php
-$getAdminArticles = getAdminArticles();
+$categoryArticles = getCategoryArticle($_GET['id']);
 
 
-while ($adminArticles = $getAdminArticles -> fetch()) {
+while ($adminArticles = $categoryArticles -> fetch()) {
   $articleTitle = new articleTitleGenerator();
 
   $articleTitle -> articleLink = "article.php?id=".$adminArticles[0];
   $articleTitle -> articleId = $adminArticles[0];
   $articleTitle -> articleTitle = $adminArticles[1];
   $articleTitle -> articleDate = $adminArticles[2];
-  $articleTitle -> articleCategory = getCategoryName($adminArticles[3]);
-  if (strlen($adminArticles[4]) > 0) {
-    $articleTitle -> articleImage = $adminArticles[4];
+  $articleTitle -> articleCategory = getCategoryName($_GET['id']);
+  if (strlen($adminArticles[3]) > 0) {
+    $articleTitle -> articleImage = $adminArticles[3];
   }
   else {
     $articleTitle -> articleImage = 'news.jpg';

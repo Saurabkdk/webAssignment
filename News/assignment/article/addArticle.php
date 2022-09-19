@@ -4,7 +4,7 @@
 
 <?php
 include '../header.php';
-include '../dbController/dbController.php';
+include '../access/validation.php';
 
 if (isset($_SESSION['adminLogin'])) {
 
@@ -42,7 +42,7 @@ if (isset($_SESSION['adminLogin'])) {
       <input type="file" name="uploadImage"><br>
       <input type="submit" name="add" value="Add Article">
       <br>
-      <a href="adminArticles.php">div<button class="formCancel" type="button">Cancel</button></a>
+      <a href="adminArticles.php"><button class="formCancel" type="button">Cancel</button></a>
     </form>
   </main>
 
@@ -79,7 +79,7 @@ if (isset($_SESSION['adminLogin'])) {
       $addArticle = addArticle($articleDetails);
 
       if($addArticle){
-        echo "Article Added";
+        redirect('adminArticles.php');
       }
       else {
         echo "Article could not be added";

@@ -4,7 +4,7 @@
 
 <?php
 include '../header.php';
-include '../dbController/dbController.php';
+include '../access/validation.php';
 
 if (isset($_SESSION['adminLogin'])) {
 
@@ -46,16 +46,26 @@ if (isset($_SESSION['adminLogin'])) {
 
   <?php
   if (isset($_POST['edit'])) {
+    $imageName = $_FILES['uploadImage']['name'];
+    $tempImgName = $_FILES['uploadImage']['tmp_name'];
+    $store = "../public/images/articles/";
+
     $editArticleTitle = $_POST['title'];
     $editArticleContent = $_POST['content'];
     $editArticleCategory = getCategoryId($_POST['category']);
-    if (isset($_POST['uploadImage'])) {
-      $editArticleImage = $_POST['uploadImage'];
+    if (isset($_FILES['uploadImage'])) {
+      $editArticleImage = $imageName;
     }
     else {
       $editArticleImage = $getOneArticle[4];
     }
+
     $articleDetails = [$editArticleTitle, $editArticleContent, $editArticleCategory, $editArticleImage, $_GET['id']];
+
+    if (isset($_FILES['uploadImage'])) {
+      move_uploaded_file($tempImgName, $store.$imageName);
+    }
+
     if (editArticle($articleDetails)) {
       redirect('adminArticles.php');
     } else {
