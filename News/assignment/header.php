@@ -22,9 +22,13 @@
 				 ?>
 				<li><a href="#">Select Category</a>
 					<ul>
-						<li><a class="articleLink" href="#">Category 1</a></li>
-						<li><a class="articleLink" href="#">Category 2</a></li>
-						<li><a class="articleLink" href="#">Category 3</a></li>
+						<?php
+						include '../dbController/dbController.php';
+		        $getCategory = getCategory();
+		        while($categoryList = $getCategory -> fetch()){
+		          echo '<li><a class="articleLink" href="./categoryArticles.php?id='. $categoryList[1] .'">'. $categoryList[0] .'</a></li>';
+		        }
+		        ?>
 					</ul>
 				</li>
 				<?php
