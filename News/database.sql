@@ -19,6 +19,9 @@ CREATE DATABASE assignment1;
 
 USE assignment1;
 
+-- admin email : admin1@gmail.com
+-- admin password : admin1234
+
 --
 -- Table structure for table `administrators`
 --
