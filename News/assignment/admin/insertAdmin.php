@@ -3,8 +3,7 @@
 <link rel="stylesheet" href="../styles.css?v=<?php echo time(); ?>"/>
 
 <?php
-include 'validation.php';
-include '../dbController/dbController.php';
+include '../access/validation.php';
 include '../header.php';
 ?>
 
