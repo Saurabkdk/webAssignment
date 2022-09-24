@@ -12,6 +12,6 @@ services:
       - ./db/:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: try
-      MYSQL_DATABASE: dockerdb
+      MYSQL_DATABASE: assignment1
     ports:
       - 3306:3306
