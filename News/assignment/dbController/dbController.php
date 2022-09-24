@@ -250,6 +250,10 @@ function deleteCategoryArticle($categoryId){
   global $dbConnection;
 
   try {
+    $getArticleId = getCategoryArticle($categoryId);
+    while ($articleId = $getArticleId -> fetch()) {
+      deleteCommentArticle($articleId[0]);
+    }
     //preparing the query to be executed
     $deleteCategoryArticle = $dbConnection -> prepare('DELETE FROM article WHERE categoryId = :category_id');
     //value required in the query
