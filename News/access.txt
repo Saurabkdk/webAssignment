@@ -1,0 +1,9 @@
+homepageurl: localhost
+
+adminuser: admin1@gmail.com
+
+adminpass: admin1234
+
+nonadminuser: user1@gmail.com
+
+nonadminpassword: user1234
